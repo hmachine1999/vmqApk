@@ -31,3 +31,13 @@ dependencies {
     compile 'com.squareup.okio:okio:1.12.0'
     testCompile 'junit:junit:4.12'
 }
+ 
+configurations.all {
+    resolutionStrategy {
+      eachDependency { details ->
+        // Force all of the primary support libraries to use the same version.
+        if (details.requested.group == 'com.android.support'
+            && details.requested.name != 'multidex'
+            && details.requested.name != 'multidex-instrumentation') {
+          details.useVersion versions.supportLibrary
+        }
